@@ -15,14 +15,6 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-// app.use(
-//   "/api",
-//   createProxyMiddleware({
-//     target: "http://localhost:3000", // Replace with the actual API server URL
-//     changeOrigin: true,
-//   })
-// );
-
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
@@ -30,6 +22,9 @@ app.use(bodyParser.json());
 app.get("/api/todos", cors(corsOptions), (req, res) => {
   const data = fs.readFileSync("./data/lists.json");
   const todos = JSON.parse(data);
+
+  res.setHeader("Content-Type", "text/html");
+  res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
 
   res.json({ data: todos });
 });
@@ -46,6 +41,10 @@ app.post("/api/todos", cors(corsOptions), (req, res) => {
   try {
     todos.push(newTodo);
     fs.writeFileSync("./data/lists.json", JSON.stringify(todos));
+
+    res.setHeader("Content-Type", "text/html");
+    res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
+
     res.json(newTodo);
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong" });
@@ -54,16 +53,19 @@ app.post("/api/todos", cors(corsOptions), (req, res) => {
 
 // view todo
 app.get("/api/todos/:id", cors(corsOptions), (req, res) => {
-    const data = fs.readFileSync("./data/lists.json");
-    const todos = JSON.parse(data);
-    const id = req.params.id;
-    const todo = todos.find((todo) => todo.id === parseInt(id));
-    
-    if (!todo) {
-        return res.status(404).json({ error: "Todo not found" });
-    }
-    
-    res.json(todo); 
+  const data = fs.readFileSync("./data/lists.json");
+  const todos = JSON.parse(data);
+  const id = req.params.id;
+  const todo = todos.find((todo) => todo.id === parseInt(id));
+
+  if (!todo) {
+    return res.status(404).json({ error: "Todo not found" });
+  }
+
+  res.setHeader("Content-Type", "text/html");
+  res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
+
+  res.json(todo);
 });
 
 // update todo
@@ -82,6 +84,10 @@ app.put("/api/todos/:id", cors(corsOptions), (req, res) => {
 
   try {
     fs.writeFileSync("./data/lists.json", JSON.stringify(todos));
+
+    res.setHeader("Content-Type", "text/html");
+    res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
+
     res.json(updatedTodo);
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong" });
@@ -102,14 +108,22 @@ app.delete("/api/todos/:id", cors(corsOptions), (req, res) => {
 
   try {
     fs.writeFileSync("./data/lists.json", JSON.stringify(todos));
+
+    res.setHeader("Content-Type", "text/html");
+    res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
+
     res.json({ id: parseInt(id) });
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong" });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+module.exports = app;
+
+// Run the server by running the following command in the terminal:
 
 // The server is now running on port 3001. You can test the server by running the following command in the terminal:
