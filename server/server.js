@@ -11,7 +11,7 @@ const app = express();
 const PORT = 3001;
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://simple-reactjs-todo-a6o63nt67-amranibrahim19.vercel.app",
   optionsSuccessStatus: 200,
 };
 
