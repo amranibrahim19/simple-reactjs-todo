@@ -12,7 +12,7 @@ const TodoList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/todos");
+        const response = await fetch("https://simple-reactjs-todo-a6o63nt67-amranibrahim19.vercel.app/api/todos");
         const data = await response.json();
 
         console.log(data);
@@ -34,7 +34,7 @@ const TodoList = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/api/todos", {
+      const response = await axios.post("https://simple-reactjs-todo-a6o63nt67-amranibrahim19.vercel.app/api/todos", {
         task: inputValue,
       });
       console.log("Data added successfully:", response.data);
@@ -61,7 +61,7 @@ const TodoList = () => {
     const updatedTodo = { ...todo, completed: !todo.completed };
     try {
       const response = await axios.put(
-        `http://localhost:3001/api/todos/${id}`,
+        `https://simple-reactjs-todo-a6o63nt67-amranibrahim19.vercel.app/api/todos/${id}`,
         updatedTodo
       );
       console.log("Data updated successfully:", response.data);
@@ -87,7 +87,7 @@ const TodoList = () => {
   const deleteTodo = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3001/api/todos/${id}`
+        `https://simple-reactjs-todo-a6o63nt67-amranibrahim19.vercel.app/api/todos/${id}`
       );
       console.log("Data updated successfully:", response.data);
       // Optionally, refetch the data after the update
