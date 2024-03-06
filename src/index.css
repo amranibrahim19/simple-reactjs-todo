@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media only screen and (max-width: 767px) {
+    .items {
+      width: 90% !important;
+    }
+  }
