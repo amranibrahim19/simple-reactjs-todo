@@ -7,5 +7,4 @@
 Using json file
 file location *data/lists.json*
 
-# Server
-run `node server/server.js`
+# API from laravel API
